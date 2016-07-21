@@ -1,0 +1,65 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv0001
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+          path: "/opt/galaxy-data"
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: galaxy-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 15Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: galaxy-svc-k8s
+  labels:
+    app: galaxy-k8s
+spec:
+  type: NodePort
+  ports:
+   - 
+     port: 8080
+  selector:
+    app: galaxy-k8s
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: galaxy-k8s 
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+         app: galaxy-k8s
+    spec:
+      containers:
+      - name: galaxy-k8s
+        image: docker-registry.phenomenal-h2020.eu/phnmnl/galaxy-k8s-runtime
+        ports:
+          - containerPort: 8080
+        volumeMounts:
+          - mountPath: "/opt/galaxy_data"
+            name: galaxy-pvc
+      volumes:
+        - name: galaxy-pvc
+          persistentVolumeClaim:
+              claimName: galaxy-pvc
+
