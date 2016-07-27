@@ -1,0 +1,5 @@
+- hosts: localhost
+  connection: local
+  roles:
+      - role: pcm32.galaxyextras
+        tags: galaxyextras
