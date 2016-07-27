@@ -4,6 +4,7 @@ LABEL Description="Galaxy test for running inside Kubernetes."
 
 ENV GALAXY_RELEASE=release_16.04 \
 GALAXY_REPO=https://github.com/phnmnl/galaxy \
+GALAXY_REPO_BRANCH=feature/allfeats \
 GALAXY_ROOT=/galaxy-central 
 ENV GALAXY_CONFIG_DIR=$GALAXY_ROOT/config
 
@@ -53,7 +54,7 @@ RUN groupadd -r $GALAXY_USER -g $GALAXY_GID && \
     mkdir $EXPORT_DIR $GALAXY_HOME $GALAXY_LOGS_DIR && chown -R $GALAXY_USER:$GALAXY_USER $GALAXY_HOME $EXPORT_DIR $GALAXY_LOGS_DIR
 
 RUN mkdir $GALAXY_ROOT && \
-    git clone https://github.com/phnmnl/galaxy.git $GALAXY_ROOT && \
+    git clone -b $GALAXY_REPO_BRANCH $GALAXY_REPO $GALAXY_ROOT && \
     virtualenv $GALAXY_VIRTUAL_ENV && \
     chown -R $GALAXY_USER:$GALAXY_USER $GALAXY_VIRTUAL_ENV && \
     chown -R $GALAXY_USER:$GALAXY_USER $GALAXY_ROOT && \
@@ -61,10 +62,7 @@ RUN mkdir $GALAXY_ROOT && \
     mkdir -p $GALAXY_CONFIG_DIR $GALAXY_CONFIG_DIR/web && \
     chown -R $GALAXY_USER:$GALAXY_USER $GALAXY_CONFIG_DIR
 
-WORKDIR $GALAXY_ROOT
-RUN git checkout feature/allfeats
-RUN echo "-e git+https://github.com/pcm32/pykube.git@feature/allMergedFeatures#egg=pykube" >> requirements.txt
-WORKDIR /
+RUN echo "-e git+https://github.com/pcm32/pykube.git@feature/allMergedFeatures#egg=pykube" >> $GALAXY_ROOT/requirements.txt
 RUN su $GALAXY_USER -c "cp $GALAXY_ROOT/config/galaxy.ini.sample $GALAXY_CONFIG_FILE"
 
 ADD roles/ /tmp/ansible/roles
