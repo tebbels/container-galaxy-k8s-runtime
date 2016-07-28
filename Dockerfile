@@ -92,7 +92,6 @@ ansible-playbook /tmp/ansible/provision.yml \
     --extra-vars galaxy_extras_galaxy_destination_default=local \
     --extra-vars galaxy_server_dir=$GALAXY_ROOT \
     --extra-vars supervisor_manage_slurm=False \
-    --extra-vars supervisor_manage_postgres=False \
     --extra-vars supervisor_manage_proftp=False \
     --extra-vars supervisor_manage_reports=False \
     --extra-vars supervisor_manage_docker=False \
