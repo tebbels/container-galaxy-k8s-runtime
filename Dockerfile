@@ -180,7 +180,7 @@ ENV GALAXY_CONFIG_INTEGRATED_TOOL_PANEL_CONFIG /export/galaxy-central/integrated
 COPY config/job_conf.xml $GALAXY_CONFIG_JOB_CONFIG_FILE
 COPY config/tool_conf.xml $GALAXY_ROOT/config/tool_conf.xml
 #COPY other_xml/integrated_tool_panel.xml integrated_tool_panel.xml
-COPY tools/phenomenal $GALAXY_ROOT/phenomenal
+COPY tools/phenomenal $GALAXY_ROOT/tools/phenomenal
 
 # Galaxy runs on python < 3.5, so https://github.com/kelproject/pykube/issues/29 recommends
 ENV PYKUBE_KUBERNETES_SERVICE_HOST kubernetes
