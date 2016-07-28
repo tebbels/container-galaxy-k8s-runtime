@@ -97,6 +97,8 @@ ansible-playbook /tmp/ansible/provision.yml \
     --extra-vars supervisor_manage_reports=False \
     --extra-vars supervisor_manage_docker=False \
     --extra-vars supervisor_manage_nodeproxy=False \
+    --extra-vars use_slurm=False \
+    --extra-vars use_docker=False \
     --tags=galaxyextras -c local && \
     apt-get purge -y software-properties-common gcc && \
     apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
