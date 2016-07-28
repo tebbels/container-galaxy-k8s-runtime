@@ -98,7 +98,7 @@ ansible-playbook /tmp/ansible/provision.yml \
     --extra-vars supervisor_manage_docker=False \
     --extra-vars supervisor_manage_nodeproxy=False \
     --tags=galaxyextras -c local && \
-    apt-get purge -y software-properties-common ansible gcc && \
+    apt-get purge -y software-properties-common gcc && \
     apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # The following commands will be executed as User galaxy
