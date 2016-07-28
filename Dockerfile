@@ -102,6 +102,8 @@ ansible-playbook /tmp/ansible/provision.yml \
     apt-get purge -y software-properties-common gcc && \
     apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+RUN mkdir /shed_tools && chown $GALAXY_USER:$GALAXY_USER /shed_tools
+
 # The following commands will be executed as User galaxy
 USER galaxy
 
@@ -169,12 +171,16 @@ RUN rm $PG_DATA_DIR_DEFAULT -rf && \
 
 RUN chmod +x /usr/bin/startup
 
+# This needs to happen here and not above, otherwise the Galaxy start
+# (without running the startup.sh script) will crash because integrated_tool_panel.xml could not be found.
+ENV GALAXY_CONFIG_INTEGRATED_TOOL_PANEL_CONFIG /export/galaxy-central/integrated_tool_panel.xml
 
-#COPY config/galaxy.ini config/galaxy.ini
-#COPY config/job_conf.xml config/job_conf.xml
-#COPY config/tool_conf.xml config/tool_conf.xml
+
+#COPY config/galaxy.ini $GALAXY_CONFIG_FILE
+COPY config/job_conf.xml $GALAXY_CONFIG_JOB_CONFIG_FILE
+COPY config/tool_conf.xml $GALAXY_ROOT/config/tool_conf.xml
 #COPY other_xml/integrated_tool_panel.xml integrated_tool_panel.xml
-#COPY tools/phenomenal tools/phenomenal
+COPY tools/phenomenal $GALAXY_ROOT/phenomenal
 
 # Galaxy runs on python < 3.5, so https://github.com/kelproject/pykube/issues/29 recommends
 ENV PYKUBE_KUBERNETES_SERVICE_HOST kubernetes

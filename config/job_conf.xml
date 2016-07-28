@@ -9,7 +9,7 @@
             <!-- The following mount path needs to be the initial part of the "file_path" and "new_file_path" paths
             set in universe_wsgi.ini (or equivalent general galaxy config file).
             -->
-            <param id="k8s_persistent_volume_claim_mount_path">/opt/galaxy_data</param>
+            <param id="k8s_persistent_volume_claim_mount_path">/export/galaxy-central</param>
             <param id="k8s_namespace">default</param>
             <!-- Allows pods to retry up to this number of times, before marking the Job as failed -->
             <param id="k8s_pod_retrials">1</param>
