@@ -5,8 +5,8 @@ LABEL Description="Galaxy test for running inside Kubernetes."
 ENV GALAXY_RELEASE=release_16.04 \
 GALAXY_REPO=https://github.com/phnmnl/galaxy \
 GALAXY_REPO_BRANCH=feature/allfeats \
-GALAXY_ROOT=/galaxy-central 
-ENV GALAXY_CONFIG_DIR=$GALAXY_ROOT/config
+GALAXY_ROOT=/galaxy-central \ 
+GALAXY_CONFIG_DIR=/etc/galaxy
 
 
 ENV GALAXY_CONFIG_FILE=$GALAXY_CONFIG_DIR/galaxy.ini \
