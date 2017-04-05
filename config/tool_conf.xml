@@ -54,6 +54,7 @@
   <section name="Transfer" id="metabolomics_transfer">
     <tool file="phenomenal/transfer/metabolights-downloader.xml"/>
     <tool file="phenomenal/transfer/metabolights-labs-uploader.xml"/>
+    <tool file="phenomenal/transfer/mtbls-factors-viz.xml"/>
   </section>
   <section name="Fluxomics" id="pheno-fluxomics">
     <tool file="phenomenal/fluxomics/ramid/ramid.xml"/>
