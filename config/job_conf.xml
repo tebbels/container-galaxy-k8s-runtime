@@ -207,6 +207,21 @@
             <param id="max_pod_retrials">3</param>
             <param id="docker_enabled">true</param>
         </destination>
+        <destination id="container-ipo-w4m" runner="k8s">
+            <param id="docker_owner_override">pcm32</param>
+            <param id="docker_image_override">ipo-xcms</param>
+            <param id="docker_tag_override">2-w4m</param>
+            <param id="max_pod_retrials">3</param>
+            <param id="docker_enabled">true</param>
+        </destination>
+	<destination id="container-camera-w4m" runner="k8s">
+            <param id="docker_owner_override">pcm32</param>
+            <param id="docker_image_override">xcms-camera</param>
+            <param id="docker_tag_override">2-w4m</param>
+            <param id="max_pod_retrials">3</param>
+            <param id="docker_enabled">true</param>
+        </destination>
+
 
     </destinations>
     <tools>
@@ -243,5 +258,26 @@
         <tool id="Metabolite_ID_Converter" destination="container-metaboliteidconverter" />
         <tool id="metabomatching" destination="metabomatching-container"/>
         <tool id="ms-vfetc" destination="leidenuniv-ms-vfetc-container"/>
+
+        <tool id="abims_xcms_fillPeaks" destination="container-ipo-w4m"/>
+        <tool id="abims_xcms_group" destination="container-ipo-w4m"/>
+        <tool id="xcms_merge" destination="container-ipo-w4m"/>
+        <tool id="abims_xcms_retcor" destination="container-ipo-w4m"/>
+        <tool id="abims_xcms_fillPeaks" destination="container-ipo-w4m"/>
+        <tool id="abims_xcms_group" destination="container-ipo-w4m"/>
+        <tool id="abims_xcms_retcor" destination="container-ipo-w4m"/>
+        <tool id="abims_xcms_summary" destination="container-ipo-w4m"/>
+        <tool id="abims_xcms_xcmsSet" destination="container-ipo-w4m"/>
+        <tool id="xcms_merge" destination="container-ipo-w4m"/>
+        <tool id="abims_xcms_summary" destination="container-ipo-w4m"/>
+	<tool id="abims_xcms_xcmsSet" destination="container-ipo-w4m"/>
+
+	<tool id="abims_CAMERA_annotateDiffreport" destination="container-camera-w4m"/>
+	<tool id="abims_CAMERA_combinexsAnnos" destination="container-camera-w4m"/>
+	<tool id="abims_CAMERA_annotateDiffreport" destination="container-camera-w4m"/>
+	<tool id="abims_CAMERA_combinexsAnnos" destination="container-camera-w4m"/>
+	
+
+
     </tools>
 </job_conf>

@@ -1,0 +1,619 @@
+{
+    "a_galaxy_workflow": "true", 
+    "annotation": "", 
+    "format-version": "0.1", 
+    "name": "LC-MS Preprocessing with W4M Tools", 
+    "steps": {
+        "0": {
+            "annotation": "", 
+            "content_id": null, 
+            "errors": null, 
+            "id": 0, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "Input Dataset"
+                }
+            ], 
+            "label": null, 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 200, 
+                "top": 200
+            }, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Input Dataset\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "uuid": "4ba2ba3c-3c17-412a-939a-c8bcf1b9a919", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "e0e6f65a-de2a-4a71-b318-ba8615969f05"
+                }
+            ]
+        }, 
+        "1": {
+            "annotation": "", 
+            "content_id": "abims_xcms_xcmsSet", 
+            "errors": null, 
+            "id": 1, 
+            "input_connections": {
+                "input": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool xcms.xcmsSet", 
+                    "name": "input"
+                }
+            ], 
+            "label": null, 
+            "name": "xcms.xcmsSet", 
+            "outputs": [
+                {
+                    "name": "xsetRData", 
+                    "type": "rdata.xcms.raw"
+                }, 
+                {
+                    "name": "sampleMetadata", 
+                    "type": "tabular"
+                }, 
+                {
+                    "name": "ticsRawPdf", 
+                    "type": "pdf"
+                }, 
+                {
+                    "name": "bpcsRawPdf", 
+                    "type": "pdf"
+                }, 
+                {
+                    "name": "log", 
+                    "type": "txt"
+                }
+            ], 
+            "position": {
+                "left": 428, 
+                "top": 200
+            }, 
+            "post_job_actions": {}, 
+            "tool_id": "abims_xcms_xcmsSet", 
+            "tool_state": "{\"input\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__rerun_remap_job_id__\": null, \"options_scanrange\": \"{\\\"option\\\": \\\"hide\\\", \\\"__current_case__\\\": 1}\", \"methods\": \"{\\\"step\\\": \\\"0.1\\\", \\\"fwhm\\\": \\\"30\\\", \\\"method\\\": \\\"matchedFilter\\\", \\\"__current_case__\\\": 1, \\\"options_m\\\": {\\\"option\\\": \\\"hide\\\", \\\"__current_case__\\\": 1}}\", \"__page__\": null}", 
+            "tool_version": "2.1.0", 
+            "type": "tool", 
+            "uuid": "2d0f6cbf-3a97-4022-b550-41f21f763e00", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "ticsRawPdf", 
+                    "uuid": "e6c1b835-fee2-48d4-b40b-829d80ee68a4"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "xsetRData", 
+                    "uuid": "07685dcc-a682-4e9d-967c-d76551395290"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "log", 
+                    "uuid": "cecbca05-ac60-4230-a357-e1c45ddd77d9"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "bpcsRawPdf", 
+                    "uuid": "e74590d9-6f7a-4515-a300-7e85f49c9578"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "sampleMetadata", 
+                    "uuid": "997fe16d-5eb6-44db-9699-5075657715b9"
+                }
+            ]
+        }, 
+        "2": {
+            "annotation": "", 
+            "content_id": "abims_xcms_group", 
+            "errors": null, 
+            "id": 2, 
+            "input_connections": {
+                "image": {
+                    "id": 1, 
+                    "output_name": "xsetRData"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool xcms.group", 
+                    "name": "image"
+                }
+            ], 
+            "label": null, 
+            "name": "xcms.group", 
+            "outputs": [
+                {
+                    "name": "xsetRData", 
+                    "type": "rdata.xcms.group"
+                }, 
+                {
+                    "name": "rplotsPdf", 
+                    "type": "pdf"
+                }, 
+                {
+                    "name": "variableMetadata", 
+                    "type": "tabular"
+                }, 
+                {
+                    "name": "dataMatrix", 
+                    "type": "tabular"
+                }, 
+                {
+                    "name": "log", 
+                    "type": "txt"
+                }
+            ], 
+            "position": {
+                "left": 756, 
+                "top": 200
+            }, 
+            "post_job_actions": {}, 
+            "tool_id": "abims_xcms_group", 
+            "tool_state": "{\"peaklist\": \"{\\\"peaklistBool\\\": \\\"false\\\", \\\"__current_case__\\\": 1}\", \"image\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__rerun_remap_job_id__\": null, \"methods\": \"{\\\"density_options\\\": {\\\"option\\\": \\\"hide\\\", \\\"__current_case__\\\": 1}, \\\"minfrac\\\": \\\"0.3\\\", \\\"bw\\\": \\\"5\\\", \\\"__current_case__\\\": 0, \\\"mzwid\\\": \\\"0.01\\\", \\\"method\\\": \\\"density\\\"}\", \"__page__\": 0}", 
+            "tool_version": "2.1.0", 
+            "type": "tool", 
+            "uuid": "bdf4f334-2302-4266-a8c2-75f1979edcda", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "log", 
+                    "uuid": "062cf5e3-7b51-4732-a449-5856ecb508f6"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "dataMatrix", 
+                    "uuid": "a665803c-445b-455b-850c-d3f3ab4b2a85"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "xsetRData", 
+                    "uuid": "ad20fcf9-0dbd-46b6-bbd8-2513ec360724"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "rplotsPdf", 
+                    "uuid": "df3ebd59-2815-406a-a75d-f5cc3221fd65"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "variableMetadata", 
+                    "uuid": "221221af-4dec-4677-96c0-40fd62a6ada8"
+                }
+            ]
+        }, 
+        "3": {
+            "annotation": "", 
+            "content_id": "abims_xcms_retcor", 
+            "errors": null, 
+            "id": 3, 
+            "input_connections": {
+                "image": {
+                    "id": 2, 
+                    "output_name": "xsetRData"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool xcms.retcor", 
+                    "name": "image"
+                }
+            ], 
+            "label": null, 
+            "name": "xcms.retcor", 
+            "outputs": [
+                {
+                    "name": "xsetRData", 
+                    "type": "rdata.xcms.retcor"
+                }, 
+                {
+                    "name": "rplotsPdf", 
+                    "type": "pdf"
+                }, 
+                {
+                    "name": "ticsCorPdf", 
+                    "type": "pdf"
+                }, 
+                {
+                    "name": "bpcsCorPdf", 
+                    "type": "pdf"
+                }, 
+                {
+                    "name": "log", 
+                    "type": "txt"
+                }
+            ], 
+            "position": {
+                "left": 1045, 
+                "top": 200
+            }, 
+            "post_job_actions": {}, 
+            "tool_id": "abims_xcms_retcor", 
+            "tool_state": "{\"file_load_section\": \"{\\\"file_load_conditional\\\": {\\\"file_load_select\\\": \\\"no\\\", \\\"__current_case__\\\": 0}}\", \"__page__\": 0, \"image\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__rerun_remap_job_id__\": null, \"methods\": \"{\\\"missing\\\": \\\"1\\\", \\\"extra\\\": \\\"1\\\", \\\"smooth\\\": \\\"loess\\\", \\\"method\\\": \\\"peakgroups\\\", \\\"__current_case__\\\": 1, \\\"options\\\": {\\\"family\\\": \\\"gaussian\\\", \\\"span\\\": \\\"0.2\\\", \\\"option\\\": \\\"show\\\", \\\"__current_case__\\\": 0, \\\"plottype\\\": \\\"deviation\\\"}}\"}", 
+            "tool_version": "2.1.0", 
+            "type": "tool", 
+            "uuid": "4af4dcad-8b75-49ca-a9b5-966f53ec7004", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "bpcsCorPdf", 
+                    "uuid": "8a59ec4e-5abd-4879-9c51-e1ae86d5e627"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "xsetRData", 
+                    "uuid": "e64593cd-1c3d-40bb-b959-15e2d5455a46"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "log", 
+                    "uuid": "08153f8d-2ca4-408a-8ff4-4f5733d57b74"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "rplotsPdf", 
+                    "uuid": "63ed762c-a569-4604-b189-f83c85b8637b"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "ticsCorPdf", 
+                    "uuid": "f099cd8f-a28c-45a6-9b19-bdb6527ef10f"
+                }
+            ]
+        }, 
+        "4": {
+            "annotation": "", 
+            "content_id": "abims_xcms_fillPeaks", 
+            "errors": null, 
+            "id": 4, 
+            "input_connections": {
+                "image": {
+                    "id": 2, 
+                    "output_name": "xsetRData"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool xcms.fillPeaks", 
+                    "name": "image"
+                }
+            ], 
+            "label": null, 
+            "name": "xcms.fillPeaks", 
+            "outputs": [
+                {
+                    "name": "xsetRData", 
+                    "type": "rdata.xcms.fillpeaks"
+                }, 
+                {
+                    "name": "variableMetadata", 
+                    "type": "tabular"
+                }, 
+                {
+                    "name": "dataMatrix", 
+                    "type": "tabular"
+                }, 
+                {
+                    "name": "log", 
+                    "type": "txt"
+                }
+            ], 
+            "position": {
+                "left": 1045, 
+                "top": 421
+            }, 
+            "post_job_actions": {}, 
+            "tool_id": "abims_xcms_fillPeaks", 
+            "tool_state": "{\"__page__\": 0, \"file_load_section\": \"{\\\"file_load_conditional\\\": {\\\"file_load_select\\\": \\\"no\\\", \\\"__current_case__\\\": 0}}\", \"image\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"method\": \"\\\"chrom\\\"\", \"peaklist\": \"{\\\"peaklistBool\\\": \\\"false\\\", \\\"__current_case__\\\": 1}\", \"__rerun_remap_job_id__\": null}", 
+            "tool_version": "2.1.0", 
+            "type": "tool", 
+            "uuid": "505a06e9-33b7-49e4-ab2c-bf5195ee882f", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "dataMatrix", 
+                    "uuid": "a005ea2c-6580-4318-83ec-a674c439f3b3"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "xsetRData", 
+                    "uuid": "1fad6c56-c1fe-4b4c-a208-27c21adbf0bc"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "log", 
+                    "uuid": "35e44796-2a97-4937-8f21-63b4be219484"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "variableMetadata", 
+                    "uuid": "70b969b9-16be-4450-9b52-b810a5b268b5"
+                }
+            ]
+        }, 
+        "5": {
+            "annotation": "", 
+            "content_id": "abims_xcms_group", 
+            "errors": null, 
+            "id": 5, 
+            "input_connections": {
+                "image": {
+                    "id": 3, 
+                    "output_name": "xsetRData"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool xcms.group", 
+                    "name": "image"
+                }
+            ], 
+            "label": null, 
+            "name": "xcms.group", 
+            "outputs": [
+                {
+                    "name": "xsetRData", 
+                    "type": "rdata.xcms.group"
+                }, 
+                {
+                    "name": "rplotsPdf", 
+                    "type": "pdf"
+                }, 
+                {
+                    "name": "variableMetadata", 
+                    "type": "tabular"
+                }, 
+                {
+                    "name": "dataMatrix", 
+                    "type": "tabular"
+                }, 
+                {
+                    "name": "log", 
+                    "type": "txt"
+                }
+            ], 
+            "position": {
+                "left": 1348, 
+                "top": 200
+            }, 
+            "post_job_actions": {}, 
+            "tool_id": "abims_xcms_group", 
+            "tool_state": "{\"peaklist\": \"{\\\"peaklistBool\\\": \\\"false\\\", \\\"__current_case__\\\": 1}\", \"image\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__rerun_remap_job_id__\": null, \"methods\": \"{\\\"density_options\\\": {\\\"max\\\": \\\"50\\\", \\\"option\\\": \\\"show\\\", \\\"__current_case__\\\": 0}, \\\"minfrac\\\": \\\"0.3\\\", \\\"bw\\\": \\\"5\\\", \\\"__current_case__\\\": 0, \\\"mzwid\\\": \\\"0.01\\\", \\\"method\\\": \\\"density\\\"}\", \"__page__\": 0}", 
+            "tool_version": "2.1.0", 
+            "type": "tool", 
+            "uuid": "9d9e97e7-d665-4e58-9879-381fc5884e75", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "log", 
+                    "uuid": "6a8fa761-d267-4b4e-af71-6d805ac89f50"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "dataMatrix", 
+                    "uuid": "d837a4a8-f323-43de-a1ff-d366e88a905a"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "xsetRData", 
+                    "uuid": "193d4779-b4f3-450c-a62e-84697dbec0a3"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "rplotsPdf", 
+                    "uuid": "97e23995-dcfd-4bdc-b8f4-ebd34f2cf090"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "variableMetadata", 
+                    "uuid": "af07975f-265d-472d-ac9a-be5cb39c22ea"
+                }
+            ]
+        }, 
+        "6": {
+            "annotation": "", 
+            "content_id": "abims_xcms_fillPeaks", 
+            "errors": null, 
+            "id": 6, 
+            "input_connections": {
+                "image": {
+                    "id": 5, 
+                    "output_name": "xsetRData"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool xcms.fillPeaks", 
+                    "name": "image"
+                }
+            ], 
+            "label": null, 
+            "name": "xcms.fillPeaks", 
+            "outputs": [
+                {
+                    "name": "xsetRData", 
+                    "type": "rdata.xcms.fillpeaks"
+                }, 
+                {
+                    "name": "variableMetadata", 
+                    "type": "tabular"
+                }, 
+                {
+                    "name": "dataMatrix", 
+                    "type": "tabular"
+                }, 
+                {
+                    "name": "log", 
+                    "type": "txt"
+                }
+            ], 
+            "position": {
+                "left": 1676, 
+                "top": 200
+            }, 
+            "post_job_actions": {}, 
+            "tool_id": "abims_xcms_fillPeaks", 
+            "tool_state": "{\"__page__\": 0, \"file_load_section\": \"{\\\"file_load_conditional\\\": {\\\"file_load_select\\\": \\\"no\\\", \\\"__current_case__\\\": 0}}\", \"image\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"method\": \"\\\"chrom\\\"\", \"peaklist\": \"{\\\"peaklistBool\\\": \\\"false\\\", \\\"__current_case__\\\": 1}\", \"__rerun_remap_job_id__\": null}", 
+            "tool_version": "2.1.0", 
+            "type": "tool", 
+            "uuid": "b05d7b20-269b-4d28-8e73-beb8ade36d37", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "dataMatrix", 
+                    "uuid": "fcc08368-0432-4e51-b104-c9704815d10a"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "xsetRData", 
+                    "uuid": "484a3e20-0b34-4590-b8a8-aec2b65c1597"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "log", 
+                    "uuid": "741d273b-8081-4dd0-a8ee-962615c6216c"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "variableMetadata", 
+                    "uuid": "3e063c9b-0a56-43ea-b090-d5825d22bb26"
+                }
+            ]
+        }, 
+        "7": {
+            "annotation": "", 
+            "content_id": "abims_CAMERA_annotateDiffreport", 
+            "errors": null, 
+            "id": 7, 
+            "input_connections": {
+                "image": {
+                    "id": 6, 
+                    "output_name": "xsetRData"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool CAMERA.annotate", 
+                    "name": "image"
+                }
+            ], 
+            "label": null, 
+            "name": "CAMERA.annotate", 
+            "outputs": [
+                {
+                    "name": "variableMetadata", 
+                    "type": "tabular"
+                }, 
+                {
+                    "name": "datamatrix", 
+                    "type": "tabular"
+                }, 
+                {
+                    "name": "rdata_quick_false", 
+                    "type": "rdata.camera.quick"
+                }, 
+                {
+                    "name": "rdata_quick_true", 
+                    "type": "rdata.camera.quick"
+                }, 
+                {
+                    "name": "output_diffreport", 
+                    "type": "text"
+                }
+            ], 
+            "position": {
+                "left": 1991.453125, 
+                "top": 191.703125
+            }, 
+            "post_job_actions": {}, 
+            "tool_id": "abims_CAMERA_annotateDiffreport", 
+            "tool_state": "{\"__page__\": null, \"groupfwhm\": \"{\\\"sigma\\\": \\\"6\\\", \\\"perfwhm\\\": \\\"0.6\\\"}\", \"file_load_section\": \"{\\\"file_load_conditional\\\": {\\\"file_load_select\\\": \\\"no\\\", \\\"__current_case__\\\": 0}}\", \"diffreport\": \"{\\\"options\\\": {\\\"option\\\": \\\"hide\\\", \\\"__current_case__\\\": 1}}\", \"image\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"findgeneral\": \"{\\\"mzabs\\\": \\\"0.015\\\", \\\"ppm\\\": \\\"5\\\"}\", \"quick_block\": \"{\\\"quick\\\": \\\"FALSE\\\", \\\"findadducts\\\": {\\\"polarity\\\": \\\"negative\\\", \\\"rules_block\\\": {\\\"rules_select\\\": \\\"FALSE\\\", \\\"__current_case__\\\": 0, \\\"multiplier\\\": \\\"3\\\"}, \\\"max_peaks\\\": \\\"100\\\"}, \\\"groupcorr\\\": {\\\"calcCaS\\\": \\\"false\\\", \\\"calcCiS\\\": \\\"true\\\", \\\"pval\\\": \\\"0.05\\\", \\\"graphMethod\\\": \\\"hcs\\\", \\\"cor_eic_th\\\": \\\"0.75\\\", \\\"calcIso\\\": \\\"false\\\"}, \\\"__current_case__\\\": 0}\", \"export\": \"{\\\"convertRTMinute\\\": \\\"false\\\", \\\"numDigitsMZ\\\": \\\"4\\\", \\\"intval\\\": \\\"into\\\", \\\"numDigitsRT\\\": \\\"0\\\"}\", \"findisotopes\": \"{\\\"maxiso\\\": \\\"4\\\", \\\"maxcharge\\\": \\\"3\\\", \\\"minfrac\\\": \\\"0.5\\\"}\", \"__rerun_remap_job_id__\": null}", 
+            "tool_version": "2.2.0", 
+            "type": "tool", 
+            "uuid": "0514532c-109e-441a-bc1d-1307bbf01225", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output_diffreport", 
+                    "uuid": "9f58fb5c-ed42-4464-94d1-126b0eea389e"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "datamatrix", 
+                    "uuid": "2ddc22eb-73dd-4340-a1e6-d085089faacd"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "rdata_quick_false", 
+                    "uuid": "cbffc657-590d-4bab-af74-68c4466cfea5"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "rdata_quick_true", 
+                    "uuid": "4f1ab294-0cca-48ba-8410-f55c38916ce4"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "variableMetadata", 
+                    "uuid": "b1386600-c44e-4fba-9d3e-9f2c7b03122e"
+                }
+            ]
+        }, 
+        "8": {
+            "annotation": "", 
+            "content_id": "sort1", 
+            "errors": null, 
+            "id": 8, 
+            "input_connections": {
+                "input": {
+                    "id": 7, 
+                    "output_name": "variableMetadata"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Sort", 
+                    "name": "input"
+                }
+            ], 
+            "label": "Sorted_Grouped", 
+            "name": "Sort", 
+            "outputs": [
+                {
+                    "name": "out_file1", 
+                    "type": "input"
+                }
+            ], 
+            "position": {
+                "left": 2368.421875, 
+                "top": 204.75
+            }, 
+            "post_job_actions": {}, 
+            "tool_id": "sort1", 
+            "tool_state": "{\"__page__\": null, \"style\": \"\\\"num\\\"\", \"column\": \"\\\"13\\\"\", \"__rerun_remap_job_id__\": null, \"order\": \"\\\"ASC\\\"\", \"input\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"column_set\": \"[]\"}", 
+            "tool_version": "1.0.3", 
+            "type": "tool", 
+            "uuid": "b23ebc42-c5cd-423d-8e6b-06b4ae59532d", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "out_file1", 
+                    "uuid": "2da4b306-1749-4a58-b399-c2bd83112ec0"
+                }
+            ]
+        }
+    }, 
+    "uuid": "162d4fa1-503b-4d47-a08b-cb916709e14b"
+}

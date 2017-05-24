@@ -89,6 +89,26 @@
     <tool file="phenomenal/w4m/biosigner_config.xml"/>
     <tool file="phenomenal/w4m/lcmsmatching_config.xml"/>
   </section>
+  <section name="W4M-XCMS" id="w4m-xcms">
+          <tool file="phenomenal/xcms-w4m/galaxy/xcms_fillpeaks/abims_xcms_fillPeaks.xml"/>
+          <tool file="phenomenal/xcms-w4m/galaxy/xcms_group/abims_xcms_group.xml"/>
+          <tool file="phenomenal/xcms-w4m/galaxy/xcms_merge/xcms_merge.xml"/>
+          <tool file="phenomenal/xcms-w4m/galaxy/xcms_retcor/abims_xcms_retcor.xml"/>
+          <tool file="phenomenal/xcms-w4m/galaxy/xcms_suite/abims_xcms_fillPeaks.xml"/>
+          <tool file="phenomenal/xcms-w4m/galaxy/xcms_suite/abims_xcms_group.xml"/>
+          <tool file="phenomenal/xcms-w4m/galaxy/xcms_suite/abims_xcms_retcor.xml"/>
+          <tool file="phenomenal/xcms-w4m/galaxy/xcms_suite/abims_xcms_summary.xml"/>
+          <tool file="phenomenal/xcms-w4m/galaxy/xcms_suite/abims_xcms_xcmsSet.xml"/>
+          <tool file="phenomenal/xcms-w4m/galaxy/xcms_suite/xcms_merge.xml"/>
+          <tool file="phenomenal/xcms-w4m/galaxy/xcms_summary/abims_xcms_summary.xml"/>
+          <tool file="phenomenal/xcms-w4m/galaxy/xcms_xcmsset/abims_xcms_xcmsSet.xml"/>
+  </section>
+  <section name="W4M-CAMERA" id="w4m-camera">
+	  <tool file="phenomenal/camera-w4m-2.2.0/galaxy/camera_annotate/abims_CAMERA_annotateDiffreport.xml"/>
+	  <tool file="phenomenal/camera-w4m-2.2.0/galaxy/camera_combinexsannos/abims_CAMERA_combinexsAnnos.xml"/>
+	  <tool file="phenomenal/camera-w4m-2.2.0/galaxy/camera_suite/abims_CAMERA_annotateDiffreport.xml"/>
+	  <tool file="phenomenal/camera-w4m-2.2.0/galaxy/camera_suite/abims_CAMERA_combinexsAnnos.xml"/>
+  </section>
   <section name="Post-Processing" id="pheno-postprocessing">
     <tool file="phenomenal/postProcessing/metaboliteidconverter.xml"/>
   </section>
