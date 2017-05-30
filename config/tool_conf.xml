@@ -109,6 +109,10 @@
 	  <tool file="phenomenal/camera-w4m-2.2.0/galaxy/camera_suite/abims_CAMERA_annotateDiffreport.xml"/>
 	  <tool file="phenomenal/camera-w4m-2.2.0/galaxy/camera_suite/abims_CAMERA_combinexsAnnos.xml"/>
   </section>
+  <section name="W4M-Prometab" id="w4m-prometab">
+	  <tool file="phenomenal/probmetab-1.1.0/galaxy/probmetab/ProbMetab.xml"/>
+  </section>
+
   <section name="Post-Processing" id="pheno-postprocessing">
     <tool file="phenomenal/postProcessing/metaboliteidconverter.xml"/>
   </section>

@@ -1,0 +1,448 @@
+<tool id="Probmetab" name="ProbMetab Tool" version="1.1.0">
+
+    <description>Wrapper function for ProbMetab R package.</description>
+
+    <macros>
+        <import>macros.xml</import>
+    </macros>
+
+    <expand macro="requirements"/>
+    <expand macro="stdio"/>
+
+    <command>
+        @COMMAND_CAMERA_SCRIPT@
+        #if $acquisition_options.mode == "one":
+            mode_acquisition $acquisition_options.mode
+            image '$acquisition_options.image'
+            ##if $acquisition_options.xsetnofill_options.option == "show":
+                ##xsetnofill $acquisition_options.xsetnofill_options.xsetnofill
+            ##end if
+
+            @COMMAND_FILE_LOAD_ONE@
+
+        #else
+            mode_acquisition $acquisition_options.mode
+            inputs_mode $acquisition_options.input_mode.option
+            #if $acquisition_options.input_mode.option== "two":
+
+                image_pos '$acquisition_options.input_mode.image_pos'
+                image_neg '$acquisition_options.input_mode.image_neg'
+                ##if $acquisition_options.input_mode.xsetnofill_options.option == "show":
+                    ##xsetPnofill $acquisition_options.input_mode.xsetnofill_options.xsetPnofill
+                    ##xsetNnofill $acquisition_options.input_mode.xsetnofill_options.xsetNnofill
+                ##end if
+
+                @COMMAND_FILE_LOAD_POSITIVE@
+                @COMMAND_FILE_LOAD_NEGATIVE@
+            ##else
+                ##image_combinexsannos $acquisition_options.input_mode.image_combinexsannos
+                ##image_pos $acquisition_options.input_mode.image_pos
+            #end if
+
+        #end if
+
+        ## Extraction of CAMERA annotation [get.annot]
+        allowMiss $getannot.allowMiss
+        #if $getannot.option_toexclude.option == "show":
+            toexclude $getannot.option_toexclude.toexclude
+        #end if
+
+        ## Database matching [create.reactionM]
+        kegg_db $db.kegg_db
+        ppm_tol $db.ppm_tol
+
+        ## Probability calculations matrix export [export.class.table]
+        prob $export.prob
+        html $export.html
+
+        ## Calculate the correlations and partial correlations and cross reference then with reactions [reac2cor]
+        opt $reac2cor.opt
+        corprob $reac2cor.corprob
+        pcorprob $reac2cor.pcorprob
+        corths $reac2cor.corths
+
+        @COMMAND_LOG_EXIT@
+
+    </command>
+
+    <inputs>
+
+        <conditional name="acquisition_options">
+            <param name="mode" type="select" label="Choose your acquisition mode" >
+                <option value="one" selected="true"  >One acquisition charge mode</option>
+                <option value="two"  >Two acquisition charge mode (positif and negatif)</option>
+            </param>
+
+            <!-- One acquisition mode-->
+            <when value="one">
+                <param name="image" type="data" label="Annotate RData" format="rdata.camera.positive,rdata.camera.negative,rdata" help="Output file from annotate step " />
+                <!--
+                <conditional name="xsetnofill_options">
+                    <param name="option" type="select" label="RData group step" help="xcmsSet xcms object after missing data replacement, to retrieve SNR to isotopic peaks." >
+                        <option value="show">show</option>
+                        <option value="hide" selected="true">hide</option>
+                    </param>
+                    <when value="show">
+                        <param name="xsetnofill" type="data" label="Positive or Negative RData from group step before fillpeaks " format="rdata" help=" output from group step" />
+                    </when>
+                </conditional>
+                -->
+                <expand macro="input_file_load"/>
+            </when>
+            <!-- Two acquisition modes-->
+            <when value="two">
+                <conditional name="input_mode">
+                    <param name="option" type="select" label="Choose your input type method:" >
+                        <!-- Bug combinexsannos TODO <option value="one">Input from combinexsAnnos step</option> -->
+                        <option value="two" selected="true">Rdata inputs from annotate</option>
+                    </param>
+                    <!--
+                    <when value="one">
+                        <param name="image_combinexsannos" type="data" label="RData output from combinexsAnnos step" format="rdata" help="output file from combinexAnnos step " />
+                        <param name="image_pos" type="data" label="Positive RData ion mode from annotatediffreport step" format="rdata" help="output file from annotatediffreport step " />
+                    </when>
+                    -->
+                    <when value="two">
+                        <param name="image_pos" type="data" label="Positive annotate RData" format="rdata.camera.positive,rdata" help="output file from annotate step " />
+                        <param name="image_neg" type="data" label="Negative annotate RData" format="rdata.camera.negative,rdata" help="output file from annotate step" />
+                        <!--
+                        <conditional name="xsetnofill_options">
+                            <param name="option" type="select" label="Two RData group step (positive and negative)" help="xcmsSet xcms objects after missing data replacement from your two acquisition modes, to retrieve SNR to isotopic peaks." >
+                                 <option value="show">show</option>
+                                 <option value="hide" selected="true">hide</option>
+                             </param>
+                            <when value="show">
+                                <param name="xsetPnofill" type="data" label="Positive RData from group step before fillpeaks " format="rdata.xcms.group,rdata" help="" />
+                                <param name="xsetNnofill" type="data" label="Negative RData from group step before fillpeaks" format="rdata.xcms.group,rdata" help="" />
+                            </when>
+                        </conditional>
+                        -->
+                    </when>
+                </conditional>
+                <expand macro="input_file_load" polarity="Positive"/>
+                <expand macro="input_file_load" polarity="Negative"/>
+            </when>
+        </conditional>
+
+        <section name="getannot" title="Extraction of CAMERA annotation [get.annot]" expanded="True">
+            <param name="allowMiss" type="boolean" checked="true" truevalue="TRUE" falsevalue="FALSE" label="Retrieves peaks with no eviendence of adduct or isotope" help=" [allowMiss] (ionAnnot function) Logical, annotate also the peaks as single charged molecules [M+/-H]." />
+            <conditional name="option_toexclude">
+                <param name="option" type="select" label="Exclude samples" >
+                    <option value="show">show</option>
+                    <option value="hide" selected="true">hide</option>
+                </param>
+                <when value="show">
+                    <param name="toexclude" type="text" value="blank,medium,QC" label="Samples to be excluded of peak counting to non-annotated peak selection." help="[toexclude]" />
+                </when>
+                <when value="hide" />
+            </conditional>
+        </section>
+
+        <section name="db" title="Database matching [create.reactionM]" expanded="True">
+            <param name="kegg_db" type="text" size="40" label="Search on KEGG database or multiple organisms "  help="Search on all KEGG organisms or multiple organisms (id1,id2,id3,...).By default,the value is KEGG which means searching on all KEGG organism. The list of KEGG IDs are available at http://rest.kegg.jp/list/organism" value="KEGG" >
+                <validator type="empty_field"/>
+            </param>
+            <param name="ppm_tol" type="integer" value="8" label="Parts per million mass tolerance allowed in the mass search" help="[ppm.tol]" />
+            <!--
+            <conditional name="useIso_options">
+                <param name="option" type="select" label="Calculates the relative isotopic abundance ratio (Carbon 13)" >
+                    <option value="show">Yes</option>
+                    <option value="hide" selected="true">No</option>
+                </param>
+                <when value="show">
+                    <param name="var" type="select" label="var (incorporate.isotopes)" help="1 to use standard mean/sd estimators to carbon number prediction, 2 for median/mad estimators." >
+                        <option value="1">1</option>
+                        <option value="2" selected="true">2</option>
+                    </param>
+                </when>
+            </conditional>
+            -->
+        </section>
+
+        <section name="export" title="Probability calculations matrix export [export.class.table]" expanded="True">
+            <param name="prob" type="select" label=" Calculation of the probability to attribute a mass to a compound" help="[prob] Default is 'count'. See the tool help for more details." >
+                <option value="count" selected="true">Count</option>
+                <option value="mean">Mean</option>
+            </param>
+
+            <param name="html" type="boolean" checked="true" truevalue="TRUE" falsevalue="FALSE" label="Logical, check if you want to generate a HTML ProbMetab report" help="[html] This parameter uses the raw data to plot EICs and may be time consuming." />
+        </section>
+
+        <section name="reac2cor" title="Calculate the correlations and partial correlations and cross reference then with reactions [reac2cor]" expanded="True">
+            <param name="opt" type="select" label="Correlation option" help="[opt] cor for correlation, and pcor for partial correlation." >
+                <option value="cor" selected="true">cor</option>
+                <option value="pcor">pcor</option>
+            </param>
+
+            <param name="corprob" type="float" value="0.8" label="Probability that the correlation is considered significant" help="[corprob]" />
+
+            <param name="pcorprob" type="float" value="0.8" label="Probability that the partial correlation is considered significant." help="[pcorprob]" />
+            <param name="corths" type="float" value="0.75" label="Correlation intensity threshold" help="[corths]" />
+        </section>
+
+        <!--
+        <section name="cytoscape" title="CytoScape options">
+            <param name="organismId" type="text" size="40" value="NULL" label="organismIdorganismId" help="(create.pathway.node.attributes function) KEGG organism id (http://www.kegg.jp/kegg/catalog/org_list.html) to filter possible pathways for known pathways for that organism. Only works for KEGG database for now. Default is NULL (all KEGG organisms).
+            " />
+        </section>
+        -->
+
+    </inputs>
+
+    <outputs>
+        <!-- <data name="output_image" format="rdata" from_work_dir="probmetab.RData" label="Probmetab.RData" /> -->
+        <data name="html_output" format="html" from_work_dir="AnalysisExample.html" label="Probmetab.Analysis_Report_html" >
+             <filter>(export['html'])</filter>
+        </data>
+        <data name="tsv_output" format="tabular" from_work_dir="Analysis_Report.tsv" label="Probmetab.CytoScape_output_Attribute_List.tsv" />
+        <data name="eics" format="zip" from_work_dir="Analysis_Report.zip" label="Probmetab.Analysis_Report_EICs_plots.zip" >
+            <filter>(export['html'])</filter>
+        </data>
+        <data name="sif_output" format="tabular" from_work_dir="sif.tsv" label="Probmetab.CytoScape_output.sif" />
+        <data name="variableMetadata" format="tabular" from_work_dir="variableMetadata.tsv" label="variableMetadata.tsv" >
+            <filter>(acquisition_options['mode'] == 'one')</filter>
+        </data>
+
+        <data name="CombineMolIon" format="tabular" from_work_dir="CombineMolIon.tsv" label="CombineMolIon.tsv" >
+            <filter>(acquisition_options['mode'] == 'two')</filter>
+        </data>
+        <data name="variableMetadata_Positive" format="tabular" from_work_dir="variableMetadata_Positive.tsv" label="variableMetadata_Positive.tsv" >
+            <filter>(acquisition_options['mode'] == 'two')</filter>
+        </data>
+        <data name="variableMetadata_Negative" format="tabular" from_work_dir="variableMetadata_Negative.tsv" label="variableMetadata_Negative.tsv" >
+            <filter>(acquisition_options['mode'] == 'two')</filter>
+        </data>
+
+    </outputs>
+
+    <tests>
+        <test>
+            <conditional name="acquisition_options">
+                <param name="mode" value="one" />
+                <param name="image" value="faahOK.xset.group.retcor.group.fillPeaks.annotate.negative.Rdata" />
+            </conditional>
+            <expand macro="test_commun"/>
+            <expand macro="test_file_load_zip"/>
+            <assert_stdout>
+                <has_text text="Step 1... determine cutoff point" />
+                <has_text text="Step 2... estimate parameters of null distribution and eta0" />
+                <has_text text="Step 3... compute p-values and estimate empirical PDF/CDF" />
+                <has_text text="Step 4... compute q-values and local fdr" />
+            </assert_stdout>
+        </test>
+        <test>
+            <conditional name="acquisition_options">
+                <param name="mode" value="one" />
+                <param name="image" value="faahOK-single.xset.merged.group.retcor.group.fillPeaks.annotate.negative.Rdata" />
+            </conditional>
+            <expand macro="test_commun"/>
+            <expand macro="test_file_load_single"/>
+            <assert_stdout>
+                <has_text text="Step 1... determine cutoff point" />
+                <has_text text="Step 2... estimate parameters of null distribution and eta0" />
+                <has_text text="Step 3... compute p-values and estimate empirical PDF/CDF" />
+                <has_text text="Step 4... compute q-values and local fdr" />
+            </assert_stdout>
+        </test>
+    </tests>
+
+
+    <help>
+
+@HELP_AUTHORS@
+
+=========
+ProbMetab
+=========
+
+-----------
+Description
+-----------
+
+**What it does?**
+
+ProbMetab, an R package that promotes substantial improvement in automatic probabilistic liquid chromatography-mass spectrometry-based metabolome annotation. The inference engine core is based on a Bayesian model implemented to (i) allow diverse source of experimental data and metadata to be systematically incorporated into the model with alternative ways to calculate the likelihood function and (ii) allow sensitive selection of biologically meaningful biochemical reaction databases as Dirichlet-categorical prior distribution. Additionally, to ensure result interpretation by system biologists, we display the annotation in a network where observed mass peaks are connected if their candidate metabolites are substrate/product of known biochemical reactions. This graph can be overlaid with other graph-based analysis, such as partial correlation networks, in a visualization scheme exported to Cytoscape, with web and stand-alone versions.
+
+
+**Details**
+
+ProbMetab assumes peak detection, retention time correction and peak grouping [4, 5] in order to
+perform mass peak to compound assignment.
+
+Once the initial annotation for different forms of the same ion (adducts and isotopes), is defined,
+one can seek for a non-redundant set of putative molecules (after charge and possible adduct
+correction) for further inference of compound identity.
+
+Experience shows that standard mass rules for adduct search may lose peaks, and specific rule tables must be setup for a given
+experimental condition. In order to address this issue, a flexible workflow, which allows users to
+integrate different methods, would improve true molecular ions recovery.
+
+The ion annotation table has the following core information: exact mass of putative molecule with experimental error; isotopic pattern associated; adduct form associated, and the original reference to raw data.
+
+
+
+
+-----------------
+Workflow position
+-----------------
+
+
+**Upstream tools**
+
+========================= ========================================== ======= ==========
+Name                      Output file                                Format  Parameter
+========================= ========================================== ======= ==========
+xcms.annotate             xset.annotate_POS (or NEG).RData RData     RData   file
+========================= ========================================== ======= ==========
+
+
+**General schema of the metabolomic workflow**
+
+.. image:: probmetab_workflow.png
+
+
+-----------
+Input files
+-----------
+
++---------------------------+------------+
+| Parameter : label         |   Format   |
++===========================+============+
+|RData Input                |   RData    |
++---------------------------+------------+
+|RData group step           |   RData    |
++---------------------------+------------+
+
+
+----------
+Parameters
+----------
+
+**Allow Miss**
+
+
+Optionally retrieves peaks with no evidence of adduct or isotope and annotate them as single charged molecules [M+/-H].
+
+
+**polarity**
+
+
+Acquisition mode of mass spectrometer.
+
+
+**Exclude samples**
+
+
+Samples to be excluded of peak counting to non-annotated peak selection.
+
+**Calculate**
+
+**intervals**
+A vector of SNR numerical intervals, to which different carbon offset should be added to predicted C-number.
+
+**offset**
+
+A vector of empirically estimated carbon offset to be added to predicted C-number.
+
+**massWeigth**
+Is the contribution parameter of the probabilistic model.
+
+**likelihood**
+
+Which noise model to use, "erfc" to complementary error function, or "gaussian" to standard gaussian with two sd corresponding to the given p.p.m precision.
+
+**precision**
+
+Equipment mass accuracy, usually the same used in exact mass search.
+
+**KEGG database**
+
+
+Select if you want to search on all KEGG organisms or multiple organisms (id1,id2,id3,...).By default,the value is KEGG which means searching on all KEGG organism. The list of KEGG IDs are available at "http://rest.kegg.jp/list/organism".
+
+**ppm.tol**
+
+
+Parts per million mass tolerance allowed in the mass search (create.reactionMfunction).
+
+**HTML**
+
+
+Logical, check if you want to generate a HTML ProbMetab report.This parameter uses the raw data to plot EICs and may be time consuming.
+
+**opt**
+
+
+(reac2cor function) Correlation option, cor for correlation, and pcor for partial correlation.
+
+**corprob**
+
+(reac2cor function) Probability that the correlation is considered significant.
+
+
+**pcorprob**
+
+
+(reac2cor function) Probability that the partial correlation is considered significant.
+
+**corths**
+
+
+(reac2cor function) Correlation intensity threshold.
+
+**prob**
+
+(export.class.table). How to calculate the probability to attribute a mass to a compound. Default is "count", which divide the number of times each identity was was attributed by the number of samples. Optionally the user could choose to use the mean of the probabilities of the identity, "mean".
+
+
+**organismIdorganismId**
+
+(create.pathway.node.attributes function) KEGG organism id (http://www.kegg.jp/kegg/catalog/org_list.html) to filter possibibly pathwyas for known pathways for that organism. Only works for KEGG database for now. Default isNULL (all KEGG organisms).
+
+
+
+------------
+Output files
+------------
+
+Probmetab.RData
+    | Rdata file, that be used outside Galaxy in R.
+
+Probmetab.Analysis_Report_htmlSelect if you want to search on all KEGG organisms or multiple organisms (id1,id2,id3,...).By default,the value is KEGG which means searching on all KEGG organism. The list of KEGG IDs are available at http://rest.kegg.jp/list/organism
+    |  A list with a matrix "classTable" with attributions and probabilities and indexes of selected masses from xcms peak table (HTML format).
+
+Probmetab.CytoScape_output_Attribute_List.tsv
+    |  A list with a matrix "classTable" with attributions and probabilities and indexes of selected masses from xcms peak table, that can be used as Attribute table list in CytoScape (tsv format).
+
+Probmetab.Analysis_Report_EICs_plots
+    | Zip file containing the EIC plots (PNG format) of the metabolites that are listed in the HTML or tsv report.
+
+Probmetab.CytoScape_output.sif
+    | Sif format file that can be used in CytoScape to visualize the network.
+
+
+---------------------------------------------------
+
+Changelog/News
+--------------
+
+**Version 1.1.0 - 06/04/2017**
+
+- IMPROVEMENT: add some sections within to separate the different parts of the process
+
+- IMPROVEMENT: Probmetab is now compatible with merged individual data from xcms.xcmsSet
+
+**Version 1.0.1 - 16/05/2016**
+
+- TEST: refactoring to pass planemo test using conda dependencies
+
+
+**Version 1.0.0 - 10/06/2015**
+
+- NEW: ProbMetab first version
+
+
+    </help>
+
+    <expand macro="citation" />
+</tool>
