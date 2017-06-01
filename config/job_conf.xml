@@ -216,10 +216,9 @@
             <param id="docker_enabled">true</param>
         </destination> 
         <destination id="container-prometab-w4m" runner="k8s">
-	    <param id="docker_repo_override">quay.io</param>
-            <param id="docker_owner_override">biocontainers</param>
-            <param id="docker_image_override">r-probmetab</param>
-            <param id="docker_tag_override">1.1--r3.3.1_0</param>
+            <param id="docker_owner_override">pcm32</param>
+            <param id="docker_image_override">w4m-probmetab</param>
+            <param id="docker_tag_override">latest</param>
 	    <param id="max_pod_retrials">3</param> <!-- r-prometab -->
 	    <param id="docker_enabled">true</param> <!-- r-prometab -->
         </destination> <!-- closes r-prometab -->
