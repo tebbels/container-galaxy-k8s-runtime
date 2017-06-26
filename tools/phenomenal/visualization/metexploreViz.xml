@@ -1,0 +1,25 @@
+<tool id="metexploreviz" name="MetexploreViz" version="0.1">
+	<stdio>
+		<exit_code range="1:" />
+	</stdio>
+	<description>Visualize Metabolic networks with MetExploreViz.
+	</description>
+	<command>
+		<![CDATA[
+		deployApp4Galaxy.sh "$html_file.extra_files_path" "$graph_file";
+		mv "$html_file.extra_files_path"/index.html "$html_file"
+		]]>
+	</command>
+	<inputs>
+		<param type="data" name="graph_file" format="json" />
+	</inputs>
+	<outputs>
+		<data format="html" name="html_file" label="Metabolic Network visualization"/>
+	</outputs>
+
+	<help>
+		<![CDATA[
+
+		]]>
+	</help>
+</tool>

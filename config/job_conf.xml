@@ -266,6 +266,22 @@
 	    <param id="max_pod_retrials">3</param>
 	    <param id="docker_enabled">true</param>
   </destination>
+  <destination id="container-sbml2metexplorejsongraph" runner="k8s">
+        <param id="docker_repo_override">container-registry.phenomenal-h2020.eu</param>
+        <param id="docker_owner_override">phnmnl</param>
+        <param id="docker_image_override">sbml2metexplorejsongraph</param>
+        <param id="docker_tag_override">latest</param>
+        <param id="max_pod_retrials">3</param>
+        <param id="docker_enabled">true</param>
+  </destination>
+   <destination id="container-metexploreviz" runner="k8s">
+        <param id="docker_repo_override">container-registry.phenomenal-h2020.eu</param>
+        <param id="docker_owner_override">phnmnl</param>
+        <param id="docker_image_override">metexploreviz</param>
+        <param id="docker_tag_override">latest</param>
+        <param id="max_pod_retrials">3</param>
+        <param id="docker_enabled">true</param>
+  </destination>
   <destination id="container-mw2isa" runner="k8s">
             <param id="docker_repo_override">container-registry.phenomenal-h2020.eu</param>
             <param id="docker_owner_override">phnmnl</param>
@@ -356,6 +372,13 @@
         <tool id="xcms-group-peaks" destination="xcms-container" />
         <tool id="xcms-correct-rt" destination="xcms-container" />
         <tool id="xcms-fill-peaks" destination="xcms-container" />
+
+
+
+    <!-- MetExplore -->
+    <tool id="SBML2Json" destination="container-sbml2metexplorejsongraph" />
+    <!--<tool id="metexploreviz" destination="container-metexploreviz" /> -->
+
 	<!-- CAMERA -->
 	<tool id="consensusXMLToXcms" destination="camera-container" />
         <tool id="cameraToFeatureXML" destination="camera-container" />

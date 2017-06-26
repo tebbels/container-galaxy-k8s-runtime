@@ -1,0 +1,23 @@
+<tool id="SBML2Json" name="SBML2Json" version="1.2">
+	<description></description>
+	<requirements>
+		<container type="docker">docker-registry.phenomenal-h2020.eu/phnmnl/sbml2metexplorejsongraph</container>
+	</requirements>
+
+	<!-- This is the shell comand that is being executed -->
+	<command>
+		<![CDATA[
+		java -jar /SBML2MetexploreJsonGraph.jar 
+			-inFile "$inputfile" 
+			-outFile "$file_out"
+			-flux2Mapp
+		]]>
+	</command>
+	<inputs>
+		<param type="data" name="inputfile" format="XML" label="Input SBML file" />
+	</inputs>
+	<outputs>
+		<data name="file_out" label="graph_file.json" format="json" ></data>
+	</outputs>
+
+</tool>

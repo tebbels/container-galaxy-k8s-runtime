@@ -6,7 +6,7 @@
 	<!-- This is the shell comand that is being executed -->
 	<command>
 		<![CDATA[
-		java -jar /Javafiles/dist/phnmnl-enrichment/phnmnl-enrichment.jar 
+		java -jar /phnmnl-enrichment.jar 
 			-inDB "$inputDB" 
 			-inFile "$inputfile" 
 			-outFile "$file_out"

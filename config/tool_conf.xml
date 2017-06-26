@@ -210,7 +210,10 @@
   <section name="Post-Processing" id="pheno-postprocessing">
     <tool file="phenomenal/postProcessing/metaboliteidconverter.xml"/>
   </section>
-
+  <section name="Visualisation" id="pheno-visualisation">
+    <tool file="phenomenal/visualization/sbml2json.xml"/>
+   <!--  <tool file="phenomenal/visualization/metexploreViz.xml"/> -->
+  </section>
   <section name="ISA tools" id="isa-tools">
     <tool file="phenomenal/isatools/get_study.xml"/>
     <tool file="phenomenal/isatools/get_study_json.xml"/>
