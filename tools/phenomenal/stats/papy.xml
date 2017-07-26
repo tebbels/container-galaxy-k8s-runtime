@@ -31,19 +31,25 @@ pa.py $testdata_input $exp_cols $sample_size $effect_size $repeats $outcome_type
      <help><![CDATA[
      
      **Power Analysis tool in PYthon**
-     This Power Analysis tool estimates the statistical power and sample size by investigating the complex relationship between sample size, power, and effect size for real multivariate data sets. 
+     This Power Analysis tool estimates statistical power and sample size using realistic simulations based on a user supplied pilot data set. The tool is based on the following paper:
+Blaise BJ, Correia G, Tin A, Young JH, Vergnaud AC, Lewis M, et al. Power Analysis and Sample Size Determination in Metabolic Phenotyping. Anal Chem. 2016;88(10):5179-88.
+*Please cite* the paper if you use the tool.
+
+The tool estimates power/sample size in two simple experimental designs: 1) Two-group classification and 2) Linear regression. All analyses are univariate (ANOVA or linear regression on each variable). The pilot data set should be representative of the data you expect to obtain in the full study. See the paper for more details.
+
+**Brief description of how the tool works**
+For classification, the tool simulates multivariate log-normal data of various sample sizes based on the pilot data. It then implements effects of different sizes for each variable by simulating two classes with different means. ANOVA is run on each variable and performance statistics (e.g. true positive rate) are calculated. For regression, a synthetic response is generated based on one variable at a time. Linear regression is conducted and performance statistics calculated.
      
-     
-     Demo data set and script for plotting single variables are in the .zip file from the link:
+     An example pilot data set (from the paper) and script for plotting single variables cab be downloaded as a .zip file from the link:
      https://github.com/jianlianggao/papy/blob/master/papy/papy_demoData_n_plot.zip?raw=true
      
      **Input Files**
      
-     - *TutorialData.csv* is the demo data set.
+     - *PilotData.csv* is the pilot data set. ***THE TESTDATA.CSV IS AN EXAMPLE OF A PILOT DATASET***
      
-     - *plotSurface.py* is for plotting each single variable in the PAPY output file (zip file downloadable after PAPY runs).
+     - *plotSurface.py* is for plotting each single variable in the PAPY output file (zip file downloadable after PAPY runs). ***THIS IS NOT AN INPUT FILE - SUGGEST DELETE***
      
-     **Output Files**
+     **Output Files**	***NEED TO ADD THE OUTPUT ZIP FILE - WITH DESCRIPTION ***
      
      - *diffgroups-xxy.csv*:
 	   
@@ -121,7 +127,7 @@ pa.py $testdata_input $exp_cols $sample_size $effect_size $repeats $outcome_type
        
      - *plot-slice-power-rate-yyCorrection-diffgroups-eff.html*, *plot-slice-power-rate-yyCorrection-ln-eff.html*: 
        
-       The files are plots of slices of mean value of proportion of variables reach the power of 0.8 against effect size regarding the discrete or continuous ('ln' code in the filename) outcome. Each plot has 3 lines with error bars which are the results based on the 2nd, middle, and the 2nd last values in the sample size matrix.
+       The files are plots of slices of mean value of proportion of variables reach the power of 0.8 against effect size regarding the discrete or continuous ('ln' code in the filename) outcome. Each plot has 3 lines with error bars which are the results based on the 2nd, middle, and the 2nd last values in the sample size matrix. ***ARE THE ERROR BARS +/- ONE STANDARD DEVIATION OR 95% CI?***
        
        'yy' is one of the correction methods, 'no', 'bonf', 'bh' and 'by', which mean, 'no correction', 'Bonferroni correction', 'Benjamini-Hochberg correction' and 'Benjamini-Yekutieli correction'.
 
